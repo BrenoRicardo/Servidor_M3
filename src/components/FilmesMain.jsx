@@ -46,7 +46,9 @@ export default function FilmesMain({ imagem, titulo, ano, direção, duração, 
             sinopse: edSinopse,
             imagem: edImagem
         });
-        window.location.reload(1);
+        setTimeout(() => {
+            window.location.reload(1);
+        }, 500);
     }
 
     $(document).ready(() => {
@@ -68,7 +70,7 @@ export default function FilmesMain({ imagem, titulo, ano, direção, duração, 
         API.delete(`/filmes/${id}`);
         setTimeout(() => {
             window.location.reload(1);
-        }, 250);
+        }, 500);
     }
 
     // Função para os comentários
@@ -83,20 +85,6 @@ export default function FilmesMain({ imagem, titulo, ano, direção, duração, 
     const [getComentario, setGetComentario] = useState(comments)
     const getComment = () => {
         setGetComentario(comentario);
-        setTimeout(() => {
-            document.getElementById('commentApi').value = ''}, 100)
-    }
-
-    const [deleteComment, setDeleteComment] = useState('')
-    const delComment = async() => {
-        API.patch(`/filmes/${id}`, {
-            comentarios: deleteComment
-        });
-        setGetComentario('')
-    }
-
-    const editComment = () => {
-        document.getElementById('commentApi').value = getComentario;
     }
 
     return (
@@ -188,9 +176,9 @@ export default function FilmesMain({ imagem, titulo, ano, direção, duração, 
                                 <p>{sinopse}</p>
                                 <hr /> 
                                 <h3>Comentário Pessoal:</h3>
-                                <p><em>{!getComentario == '' ? (<div>{getComentario}<br /><button onClick={editComment} className={styles.btnDel}>Editar</button><button className={styles.btnDel} onClick={delComment}>Excluir</button></div>) : 'Sem comentário...'}</em></p>
+                                <p><em>{getComentario}</em></p>
                                 <form className='formComments' onSubmit={postComentario}>
-                                    <textarea required id='commentApi' onChange={e => setComentario(e.target.value)}/>
+                                    <textarea required onChange={e => setComentario(e.target.value)}/>
                                     <br />
                                     <button type='submit' className='btn btn-success btn-sm mt-2 mb-2' onClick={getComment}>Comentar</button>
                                 </form>
